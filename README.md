@@ -3,11 +3,11 @@
 # Documentation
 
 This is a single player version of the game MAFIA, by yours truely Abukar Djama.
-Click [## HERE (https://abukar.net/)] to launch the game.
+Click [## HERE](https://abukar.net/) to launch the game.
 ^^
 
 ## Graph Diagram 
-![Graph](https://github.com/Abukar-1000/finiteStateGame/tree/main/public/graph.png)
+![Graph](/public/graph.png)
 ## General Overview of Structure
 
 In the project directory, you can run:
