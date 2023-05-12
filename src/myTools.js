@@ -304,45 +304,6 @@ class StoryLine {
         };
     }
 }
-function createGamePlot(){
-    let players = [
-        "Ethan Sullivan",
-        "Sophia Martinez",
-        "Benjamin Reynolds",
-        "Olivia Thompson",
-        "Lucas Anderson",
-        "Ava Wilson"
-    ];
 
-    const getRandomPLayer = () => {
-        let randomIndex = Math.floor(Math.random() * 100 % players.length);
-        return players[randomIndex];
-    };
-
-    // create the first mafia agent
-    let mafiaAgent1 = getRandomPLayer();
-    
-    // remove mafia choice from player options
-    players = players.filter(name => {
-        return name !== mafiaAgent1;
-    });
-
-    // create the second mafia agent
-    let mafiaAgent2 = getRandomPLayer();
-
-    // remove mafia choice from player options
-    players = players.filter(name => {
-        return name !== mafiaAgent2;
-    });
-
-    // return the object
-    return {
-        "mafiaAgent1": mafiaAgent1,
-        "mafiaAgent2": mafiaAgent2,
-        "players": players,
-        "intro": null,
-        "stage": null
-    };
-}
-
+export default StoryLine;
 console.log(new StoryLine().generatePlot())
