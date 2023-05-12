@@ -1,10 +1,14 @@
-[![View Project](https://www.svgrepo.com/show/395071/knife.svg)](https://abukar.net/)
+
 
 # Documentation
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a single player version of the game MAFIA, by yours truely Abukar Djama.
+Click [## HERE (https://abukar.net/)] to launch the game.
+^^
 
-## Available Scripts
+## Graph Diagram 
+![Graph](https://github.com/Abukar-1000/finiteStateGame/tree/main/public/graph.png)
+## General Overview of Structure
 
 In the project directory, you can run:
 
