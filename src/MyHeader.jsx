@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 
 /*
@@ -29,8 +29,6 @@ function MyHeader() {
 
             // update the state
             outputSpan.textContent += arr[index];
-            // spanText += arr[index];
-            // updateSpanState(spanText);
             index += 1;
             console.log(index);
         }
