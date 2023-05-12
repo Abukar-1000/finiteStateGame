@@ -1,4 +1,4 @@
-[![Deploy to Cyclic](https://deploy.cyclic.app/button.svg)](https://deploy.cyclic.app/)
+[![View Project](:rewind:)](https://abukar.net/)
 
 # Documentation
 
