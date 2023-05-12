@@ -1,4 +1,4 @@
-[![View Project](:rewind:)](https://abukar.net/)
+[![View Project](https://www.svgrepo.com/show/395071/knife.svg)](https://abukar.net/)
 
 # Documentation
 
