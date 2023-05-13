@@ -67,7 +67,9 @@ Furthermore I'm not new to React, but this project has taught me a lot of intric
 Both from react and web api's such as setInterval. </br>
 Looking back if I were to rewrite this in vanilla JavaScript it production would probably be a lot quicker. </br>
 Unfortunately due to other summer classes and an overkill tech stack, I wasn't able to add much css to the page.
- 
-* Game state
+
+* Game state </br>
 Regarding game state this project has taught me why a tree structure is best for games. </br>
 In planning my game, I noticed I must watch out for unintended infinite loops from bad plot design. </br>
+
+# Thanks For Stopping By 😎
