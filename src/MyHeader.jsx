@@ -30,7 +30,6 @@ function MyHeader() {
             // update the state
             outputSpan.textContent += arr[index];
             index += 1;
-            console.log(index);
         }
     }, []);
     // animation state is held in the spanText variable

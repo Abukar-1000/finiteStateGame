@@ -12,6 +12,8 @@ function App() {
   let [startGame, changeActiveGameState] = useState(false);
   let eliminatedCivilians = new Array(); 
   let eliminatedMafia = new Array();
+  let gameOver = false;
+
 
   return (
     <div className="App">
@@ -25,7 +27,7 @@ function App() {
 
       {/* game happens here */}
       {
-        (startGame)? <GameSection plot = {plot} eliminatedArr = {[eliminatedCivilians, eliminatedMafia]}/>: <></>
+        (startGame)? <GameSection plot = {plot} eliminatedArr = {[eliminatedCivilians, eliminatedMafia]} gameOver = {gameOver}/>: <></>
       }
     </div>
   );

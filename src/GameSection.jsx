@@ -14,7 +14,6 @@ function GameSection(props) {
     };
 
     let [eliminatedCivilians, eliminatedMafia] = props.eliminatedArr;
-
     let [currentState, updateState] = useState({
         stageType: GAMESTATES.saveVictim,
         previousStageType: null,
@@ -35,30 +34,32 @@ function GameSection(props) {
     let plotStage = props.plot.stage.filter( stageObj => {
         return currentState.currentStage === stageObj.key;
     })[0]; 
-    console.log(plotStage);
-    console.log(`victim ${plotStage.victim}`);
-    console.log(props.players)
+    
+
+
+    // responsiable for checking if the game has been won or lost
+    const checkGameOver = () => {
+        // alternate the state if player was choosing victim then player will accuse the mafia else player will choose a victim
+        let gameOver = false;
+        // let gameOver = false;
+        let component;
+        // check if the game has been lost
+        if (eliminatedCivilians.length === 4){
+            gameOver = true;
+            component = <h1>Mafia Win 😡</h1>
+        } else if (eliminatedMafia.length === 2) {
+            console.log(eliminatedMafia)
+            gameOver = true;
+            component = <h1>You Win 🥳!!</h1>
+        }
+
+        return [gameOver, component];
+        
+    }
 
     // responsiable for checking if the game has been won or lost
     const goToNext = event => {
-        // alternate the state if player was choosing victim then player will accuse the mafia else player will choose a victim
-        let nextState = (currentState.previousStageType === GAMESTATES.saveVictim)? GAMESTATES.accuseMafia: GAMESTATES.saveVictim;
-        let gameLost = false;
-        let deadCivilians = new Set(eliminatedCivilians)
-        // if ()
-        // updateState({
-        //     stageType: nextState,
-        //     previousStageType: state,
-        //     currentStage: currentState.currentStage,
-        //     userChoice: null,
-        //     userChoseCorrectVictim: currentState.userChoseCorrectVictim,
-        //     userChoseCorrectMafia: currentState.userChoseCorrectMafia,
-        //     eliminatedCivilians: currentState.eliminatedCivilians, 
-        //     eliminatedMafia: currentState.eliminatedMafia,
-        //     narration: null,
-        //     component: null,
-        //     ntxBtn: null
-        // });
+        
     }
 
 
@@ -91,7 +92,6 @@ function GameSection(props) {
             component: currentState.component,
             nextBtn: nextBtn
         });
-
     }
 
     // grabs the character name. created a function here becuase there are 2 cases
@@ -129,12 +129,12 @@ function GameSection(props) {
             }
             narration = <Narrator text = {`{userSelection} was not a mafia member`} />;
         }
-        let nextBtn = <button onClick = {goToNext}>➡</button>;
+        let nextBtn = <button>➡</button>;
 
         updateState({
             stageType: GAMESTATES.saveVictim,
             previousStageType: GAMESTATES.accuseMafia,
-            currentStage: currentState.currentStage,
+            currentStage: currentState.currentStage + 1,
             userChoice: null,
             userChoseCorrectVictim: currentState.userChoseCorrectVictim,
             userChoseCorrectMafia: currentState.userChoseCorrectMafia,
@@ -144,17 +144,32 @@ function GameSection(props) {
             component: currentState.component,
             nextBtn: nextBtn
         });
+
     }
 
+    let [gameOver, gameOvercomponenet] = checkGameOver();
+    console.log("over ",gameOver, gameOvercomponenet)
+    // end the game
+    if (gameOver){
+        // updateState({
+        //     stageType: null,
+        //     previousStageType: null,
+        //     currentStage: null,
+        //     userChoice: null,
+        //     narration: null,
+        //     component: gameOvercomponenet,
+        //     ntxBtn: null
+        // });
+        currentState.component = gameOvercomponenet;
+    }
     // user is choosing a victim to save
-    if (currentState.stageType === GAMESTATES.saveVictim){
+    else if (currentState.stageType === GAMESTATES.saveVictim){
         // component = <PickVictimToSave players = {props.plot.players} victim = {plotStage.victim} stateArr = {[currentState, updateState]}/>
-        // console.log(props.plot.players);
         let peopleChoices = props.plot.players.map(playerName => {
             // if there is atleast civilian who died then we should not render them
             if (eliminatedCivilians.length > 0){
                 if (!eliminated(playerName)){
-                    console.log(`checked: ${playerName}`)
+                    console.log(`civilian: ${playerName}`)
                     return <a onClick={reactToUserVictimChoice}>
                                 <li><p>{playerName}</p></li>
                             </a>
@@ -175,9 +190,6 @@ function GameSection(props) {
                     </div>
         
     }
-    // else if (currentState.stageType === GAMESTATES.Narrate){
-        
-    // }
     else if (currentState.stageType === GAMESTATES.accuseMafia){
         console.log("arrs: ", eliminatedCivilians, eliminatedMafia)
         currentState.nextBtn = null;
@@ -210,7 +222,6 @@ function GameSection(props) {
                                 </div>
     }
 
-    // let [narration, changeNarration] = useState(<Narrator text = {plotStage.guessVictim.correct} />)
     return <div>
                 {currentState.narration}
                 {currentState.component}
@@ -221,15 +232,3 @@ function GameSection(props) {
 
 export default GameSection;
 
-
-
-// setTimeout(() => {
-//     if (!currentState.eliminatedCivilians.includes(alibisObj.person) && !currentState.eliminatedMafia.includes(alibisObj.person)){
-//         return <li>
-//                     <a onClick={reactToMafiaChoice}>
-//                         <div><p>{alibisObj.person}</p></div>
-//                         <p>{alibisObj.reason}</p>
-//                     </a>
-//                </li>
-//     }
-// }, 500);
