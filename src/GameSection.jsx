@@ -27,6 +27,7 @@ function GameSection(props) {
         component: null,
         ntxBtn: null
     });
+    let narration;
 
 
 
@@ -67,15 +68,14 @@ function GameSection(props) {
     const reactToUserVictimChoice = event => {
         let userSelection = event.target.innerText;
         let correctChoice = false;
-        let narration;
         if (userSelection === plotStage.victim){
             correctChoice = true;
-            narration = <Narrator text = {plotStage.guessVictim.correct} />;
+            currentState.narration = <Narrator text = {plotStage.guessVictim.correct} />;
         } else {
             if (!eliminatedCivilians.includes(userSelection)){
                 eliminatedCivilians.push(userSelection);
             }
-            narration = <Narrator text = {plotStage.guessVictim.wrong} />;
+            currentState.narration = <Narrator text = {plotStage.guessVictim.wrong} />;
         }
         let nextBtn = <button onClick = {goToNext}>➡</button>;
         // record wrong answer, this character is now dead
@@ -88,7 +88,7 @@ function GameSection(props) {
             userChoseCorrectVictim: correctChoice,
             userChoseCorrectMafia: currentState.userChoseCorrectMafia,
             eliminatedMafia: currentState.eliminatedMafia,
-            narration: narration,
+            narration: currentState.narration,
             component: currentState.component,
             nextBtn: nextBtn
         });
@@ -122,12 +122,12 @@ function GameSection(props) {
                 eliminatedMafia.push(userSelection);
             }
             correctChoice = true
-            narration = <Narrator text = {plotStage.guessMafia.correct} />;
+            currentState.narration = <Narrator text = {plotStage.guessMafia.correct} />;
         } else {
             if (!eliminatedCivilians.includes(userSelection)){
                 eliminatedCivilians.push(userSelection);
             }
-            narration = <Narrator text = {`{userSelection} was not a mafia member`} />;
+            currentState.narration = <Narrator text = {`{userSelection} was not a mafia member`} />;
         }
         let nextBtn = <button>➡</button>;
 
@@ -140,26 +140,19 @@ function GameSection(props) {
             userChoseCorrectMafia: currentState.userChoseCorrectMafia,
             eliminatedCivilians: currentState.eliminatedCivilians, 
             eliminatedMafia: (correctChoice)? [userSelection.eliminatedMafia, userSelection]: currentState.eliminatedMafia,
-            narration: narration,
+            narration: currentState.narration,
             component: currentState.component,
             nextBtn: nextBtn
         });
 
     }
 
+    // give a narration while the user is picking a choice
+    // currentState.component = narration;
     let [gameOver, gameOvercomponenet] = checkGameOver();
     console.log("over ",gameOver, gameOvercomponenet)
     // end the game
     if (gameOver){
-        // updateState({
-        //     stageType: null,
-        //     previousStageType: null,
-        //     currentStage: null,
-        //     userChoice: null,
-        //     narration: null,
-        //     component: gameOvercomponenet,
-        //     ntxBtn: null
-        // });
         currentState.component = gameOvercomponenet;
     }
     // user is choosing a victim to save
