@@ -32,7 +32,7 @@ function MyHeader() {
             index += 1;
             console.log(index);
         }
-    });
+    }, []);
     // animation state is held in the spanText variable
     return (
         <header>

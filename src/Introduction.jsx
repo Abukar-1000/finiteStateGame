@@ -1,11 +1,10 @@
 import { useState } from "react";
 
 
-// [![View Project](https://www.svgrepo.com/show/395071/knife.svg)](https://abukar.net/)
 function Introduction(props){
     let plot = props.plot;
 
-    // create introductory JSX
+    // create introductory JSX elements
     let welcomingP1 = <p>{plot.intro[0].discription}</p>
     let welcomingP2 = <div>
                             <p>{plot.intro[1].discription}</p>
@@ -24,12 +23,11 @@ function Introduction(props){
                         </div>
 
     let welcomingClosing = <div>
-                                <p>{plot.intro[3].discription}</p>
                                 <p>{plot.intro[4].discription}</p>
                                 <p>{plot.intro[5].discription}</p>
                             </div>
 
-    // display the introduction after 2 seconds
+    // display the introduction after 2.5 seconds, when MAFIA title has been animated
     let [allContent, setContent] = useState(<></>);
     setTimeout(() => {
         setContent(
@@ -37,6 +35,7 @@ function Introduction(props){
                 {welcomingP1}
                 {welcomingP2}
                 {welcomingP3}
+                {welcomingClosing}
 
             </>
         )

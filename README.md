@@ -1,16 +1,40 @@
 
 
 # Documentation
-
-This is a single player version of the game MAFIA, by yours truely Abukar Djama.
-Click [## HERE](https://abukar.net/) to launch the game.
-^^
+This is a single player version of the game MAFIA, by yours truely Abukar Djama. <br>
+Click [HERE](https://main--keen-raindrop-d78e24.netlify.app/) to launch the game.
 
 ## Graph Diagram 
 ![Graph](/public/graph.png)
-## General Overview of Structure
 
-In the project directory, you can run:
+## General Overview of Structure
+All the files below can be found in the src folder. <br>
+All files have been commented such that there are no confusions. <br>
+
+1. myTools.js
+    * This is where I have created the story line for the game ( as a class )
+    * The plot is constructed dynamically at the beginning before the game has started
+2. MyHeader
+    * Is a custom JSX component so I can animate the word MAFIA.
+3. Introduction
+    * Is used to explain the game and how to play it.
+    * Will be displayed after the header.
+4. GameSection
+    * This is where the game will occur.
+    * All events that effect the state of the game will be handled here.
+    * At the end of the game the state of the game will be decided in this component.
+        * \( whether the player lost or won the game \).
+
+
+# Game logic
+* The player will ckick ➡ button to start the game.
+* At each stage of the game there are 2 states to consider.
+    * If the player is picking someone to save.
+    * If the player is picking someone to accuse as the mafia.
+* When the user is picking someone to save
+    * All user options are rendered on screen.
+    * A callback is attached to each option on a `onClick` event
+        * when the choice is made
 
 ### `npm start`
 

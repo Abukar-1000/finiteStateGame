@@ -72,13 +72,13 @@ class StoryLine {
             {
                 "key": 5,
                 "discription": `You the player have the ability to both save and investigate, so this calls for a special role. 
-                Your role is MD Sharif "username". You fight crime during the day, and save patients at night.
+                Your role is MD Sharif! You fight crime during the day, and save patients at night.
                 `
             },
 
             {
                 "key": 6,
-                "discription": `You win if you can guess the 2 mafia agents. With that Lets start.`
+                "discription": `You win if you can guess the 2 mafia agents. With that Lets start!`
             }
         ]
     }
@@ -306,4 +306,3 @@ class StoryLine {
 }
 
 export default StoryLine;
-console.log(new StoryLine().generatePlot())
