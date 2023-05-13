@@ -40,7 +40,7 @@ function Introduction(props){
             </>
         )
     }, 2500 )
-    return <div>
+    return <div className="introText">
                 {allContent}
             </div>
 }

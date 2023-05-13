@@ -19,8 +19,21 @@
   color: white;
 }
 
+.mafiaHeaderTxt {
+  font-size: 3rem;
+}
+
+.introText, .narratorTxt, .componentTxt, .choicesTxt > *{
+  font-size: 1.4rem;
+}
 .App-link {
   color: #61dafb;
 }
 
-
+.choicesTxt > li {
+}
+.choicesTxt > *:hover {
+  padding: 1%;
+  border: 10px black solid;
+  transition: border 1s;
+}

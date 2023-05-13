@@ -4,12 +4,12 @@
 This is a single player version of the game MAFIA, by yours truely Abukar Djama. <br>
 Click [HERE](https://main--keen-raindrop-d78e24.netlify.app/) to launch the game.
 
+## General Overview of Structure
+
 ## Graph Diagram 
 ![Graph](/public/graph.png)
-
-## General Overview of Structure
 All the files below can be found in the src folder. <br>
-All files have been commented such that there are no confusions. <br>
+All files have been commented for convinience. <br>
 
 1. myTools.js
     * This is where I have created the story line for the game ( as a class )
@@ -24,82 +24,50 @@ All files have been commented such that there are no confusions. <br>
     * All events that effect the state of the game will be handled here.
     * At the end of the game the state of the game will be decided in this component.
         * \( whether the player lost or won the game \).
+5. Narrator
+    * This is where the current stage of the game will be displayed to the user.
+    * They will be asked to choose:
+        * who to save
+        * who to accuse
+6. App
+    * This is where all the logic is contained.
+    * Contains all the components Above
 
 
 # Game logic
 * The player will ckick ➡ button to start the game.
-* At each stage of the game there are 2 states to consider.
+* At each stage of the game there are 3 states to consider.
     * If the player is picking someone to save.
     * If the player is picking someone to accuse as the mafia.
-* When the user is picking someone to save
+    * The 3rd state is when the game is narrating the current stage of the game.
+* When the user is picking someone to save.
     * All user options are rendered on screen.
-    * A callback is attached to each option on a `onClick` event
-        * when the choice is made
+    * A callback is attached to each option using a `onClick` event.
+        * when the choice is made it is checked to see if it is correct.
+            * if so the user is saved.
+* Once the user has chosen someone to save, they will then choose someone to accuse as the mafia.
+    * If they are the mafia then we record that entry.
+        * Once the user has caught 2 mafia agents the game is over.
+        * Alternatively the game is also over when all the civilians have been killed by the mafia.
+* This loop repeats untill the game is either won or lost.
 
-### `npm start`
+# Technological Choices
+* Frontend => React.js
+* Backend => None
+* Hosting => Netlify
 
-Runs the app in the production mode.
+# Instillation
+### Due to the beuty of the browser, there are no dependancies or instillations needed by the user.
 
-### `npm dev`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# finiteStateGame
+# Lesson Learnd
+* React isn't always better.
+I chose React because it would let me manage state with out having to pass state to a server. </br>
+Ironically I was going to have to host this anyway, so it wouldn't have made much of a difference. </br>
+Furthermore I'm not new to React, but this project has taught me a lot of intricate concepts i was't aware of. </br>
+Both from react and web api's such as setInterval. </br>
+Looking back if I were to rewrite this in vanilla JavaScript it production would probably be a lot quicker. </br>
+Unfortunately due to other summer classes and an overkill tech stack, I wasn't able to add much css to the page.
+ 
+* Game state
+Regarding game state this project has taught me why a tree structure is best for games. </br>
+In planning my game, I noticed I must watch out for unintended infinite loops from bad plot design. </br>
