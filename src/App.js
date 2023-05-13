@@ -8,7 +8,10 @@ import { useState } from 'react';
 function App() {
   // generate the plot, will be propogated down to children
   let plot = new StoryLine().generatePlot();
+  console.log(plot)
   let [startGame, changeActiveGameState] = useState(false);
+  let eliminatedCivilians = new Array(); 
+  let eliminatedMafia = new Array();
 
   return (
     <div className="App">
@@ -22,7 +25,7 @@ function App() {
 
       {/* game happens here */}
       {
-        (startGame)? <GameSection plot = {plot} />: <></>
+        (startGame)? <GameSection plot = {plot} eliminatedArr = {[eliminatedCivilians, eliminatedMafia]}/>: <></>
       }
     </div>
   );

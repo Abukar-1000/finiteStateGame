@@ -4,50 +4,6 @@ import Narrator from "./Narrator";
 
 */
 
-function GameCharacter(props){
-
-}
-
-// componenet to render when the user is picking someone to save {victim, players}
-function PickVictimToSave(props) {
-
-    // callback to handle click event
-    const reactToUserChoice = event => {
-        let [currentState, updateState] = props.stateArr;
-        let userSelection = event.target.innerText;
-        // // update state
-        // updateState(
-        //     {
-        //         stageType: currentState.saveVictim,
-        //         currentStage: currentState.currentStage,
-        //         eliminatedCivilians: currentState.eliminatedCivilians, 
-        //         eliminatedMafia: currentState.eliminatedMafia,
-        //         userChoice: userSelection
-        //     }
-        // )
-        // console.log("current state")
-        // console.log(currentState)
-        console.log(event, event.target.innerText)
-    }
-    // if the user is saving someone
-    // for each player name create a element to click on
-    let peopleChoices = props.players.map(playerName => {
-        if (playerName !== props.victim){
-            // console.log(playerName)
-            return <a onClick={reactToUserChoice}>
-                        <li><p>{playerName}</p></li>
-                    </a>
-        }
-    })
-
-    return <div>
-        <p>Select a victim to save:</p>
-        <ul>
-            {peopleChoices}
-        </ul>
-    </div>
-}
-
 // game starts here
 function GameSection(props) {
 
@@ -57,8 +13,7 @@ function GameSection(props) {
         "Narrate": 2
     };
 
-    let eliminatedCivilians = new Array(); 
-    let eliminatedMafia = new Array();
+    let [eliminatedCivilians, eliminatedMafia] = props.eliminatedArr;
 
     let [currentState, updateState] = useState({
         stageType: GAMESTATES.saveVictim,
@@ -84,22 +39,26 @@ function GameSection(props) {
     console.log(`victim ${plotStage.victim}`);
     console.log(props.players)
 
-    const goToNext = state => {
+    // responsiable for checking if the game has been won or lost
+    const goToNext = event => {
         // alternate the state if player was choosing victim then player will accuse the mafia else player will choose a victim
         let nextState = (currentState.previousStageType === GAMESTATES.saveVictim)? GAMESTATES.accuseMafia: GAMESTATES.saveVictim;
-        updateState({
-            stageType: nextState,
-            previousStageType: state,
-            currentStage: currentState.currentStage,
-            userChoice: null,
-            userChoseCorrectVictim: currentState.userChoseCorrectVictim,
-            userChoseCorrectMafia: currentState.userChoseCorrectMafia,
-            eliminatedCivilians: currentState.eliminatedCivilians, 
-            eliminatedMafia: currentState.eliminatedMafia,
-            narration: null,
-            component: null,
-            ntxBtn: null
-        });
+        let gameLost = false;
+        let deadCivilians = new Set(eliminatedCivilians)
+        // if ()
+        // updateState({
+        //     stageType: nextState,
+        //     previousStageType: state,
+        //     currentStage: currentState.currentStage,
+        //     userChoice: null,
+        //     userChoseCorrectVictim: currentState.userChoseCorrectVictim,
+        //     userChoseCorrectMafia: currentState.userChoseCorrectMafia,
+        //     eliminatedCivilians: currentState.eliminatedCivilians, 
+        //     eliminatedMafia: currentState.eliminatedMafia,
+        //     narration: null,
+        //     component: null,
+        //     ntxBtn: null
+        // });
     }
 
 
@@ -109,10 +68,12 @@ function GameSection(props) {
         let correctChoice = false;
         let narration;
         if (userSelection === plotStage.victim){
-            eliminatedCivilians.push(userSelection)
             correctChoice = true;
             narration = <Narrator text = {plotStage.guessVictim.correct} />;
         } else {
+            if (!eliminatedCivilians.includes(userSelection)){
+                eliminatedCivilians.push(userSelection);
+            }
             narration = <Narrator text = {plotStage.guessVictim.wrong} />;
         }
         let nextBtn = <button onClick = {goToNext}>➡</button>;
@@ -125,7 +86,6 @@ function GameSection(props) {
             userChoice: userSelection,
             userChoseCorrectVictim: correctChoice,
             userChoseCorrectMafia: currentState.userChoseCorrectMafia,
-            // eliminatedCivilians: (correctChoice)? currentState.eliminatedCivilians.push(userSelection): currentState.eliminatedCivilians, 
             eliminatedMafia: currentState.eliminatedMafia,
             narration: narration,
             component: currentState.component,
@@ -138,7 +98,6 @@ function GameSection(props) {
     // player might click alibis or the character name. Therefor must adjust for both
     const formatMafiaChoice = choice => {
         let result = choice.split(" ");
-        console.log(result);
         // player click alibis instead of name 
         if (result.length > 2){
             return result.slice(0,1) + " " + result[1].slice(0,result[1].length - 1);
@@ -147,16 +106,27 @@ function GameSection(props) {
         return choice;
     }
 
+    // checks if a character has been eliminated
+    const eliminated = character => {
+        return eliminatedCivilians.includes(character) || eliminatedMafia.includes(character);
+    }
+
     // validates a user's attempt to indentify a mafia member
     const reactToMafiaChoice = event => {
         let userSelection = formatMafiaChoice(event.target.innerText);
         let correctChoice = false;
         let narration;
         if (userSelection === props.plot.mafiaAgent1 || userSelection === props.plot.mafiaAgent2){
-            eliminatedMafia.push(userSelection)
+            console.log(`caught: ${userSelection}`);
+            if (!eliminatedMafia.includes(userSelection)){
+                eliminatedMafia.push(userSelection);
+            }
             correctChoice = true
             narration = <Narrator text = {plotStage.guessMafia.correct} />;
         } else {
+            if (!eliminatedCivilians.includes(userSelection)){
+                eliminatedCivilians.push(userSelection);
+            }
             narration = <Narrator text = {`{userSelection} was not a mafia member`} />;
         }
         let nextBtn = <button onClick = {goToNext}>➡</button>;
@@ -169,7 +139,7 @@ function GameSection(props) {
             userChoseCorrectVictim: currentState.userChoseCorrectVictim,
             userChoseCorrectMafia: currentState.userChoseCorrectMafia,
             eliminatedCivilians: currentState.eliminatedCivilians, 
-            eliminatedMafia: (correctChoice)? userSelection.eliminatedMafia.push(userSelection): currentState.eliminatedMafia,
+            eliminatedMafia: (correctChoice)? [userSelection.eliminatedMafia, userSelection]: currentState.eliminatedMafia,
             narration: narration,
             component: currentState.component,
             nextBtn: nextBtn
@@ -182,8 +152,9 @@ function GameSection(props) {
         // console.log(props.plot.players);
         let peopleChoices = props.plot.players.map(playerName => {
             // if there is atleast civilian who died then we should not render them
-            if (eliminatedCivilians.lenght){
-                if (!eliminatedCivilians.includes(plotStage.victim)){
+            if (eliminatedCivilians.length > 0){
+                if (!eliminated(playerName)){
+                    console.log(`checked: ${playerName}`)
                     return <a onClick={reactToUserVictimChoice}>
                                 <li><p>{playerName}</p></li>
                             </a>
@@ -208,14 +179,13 @@ function GameSection(props) {
         
     // }
     else if (currentState.stageType === GAMESTATES.accuseMafia){
-        console.log("state chnaged");
+        console.log("arrs: ", eliminatedCivilians, eliminatedMafia)
         currentState.nextBtn = null;
         let mafiaChoices = plotStage.guessMafia.alibis.map( alibisObj => {
             // if the current character is not eliminated ( whether they are mafia or civilian ) then render a componenet
-            // console.log("current",currentState.eliminatedCivilians, currentState.eliminatedMafia);
 
-            if (eliminatedCivilians.length && eliminatedMafia.length){
-                if (!eliminatedCivilians.includes(alibisObj.person) && !eliminatedMafia.includes(alibisObj.person)){
+            if (eliminatedCivilians.length > 0 || eliminatedMafia.length > 0){
+                if (!eliminated(alibisObj.person)){
                     return <li>
                                 <a onClick={reactToMafiaChoice}>
                                     <div><p>{alibisObj.person}</p></div>
